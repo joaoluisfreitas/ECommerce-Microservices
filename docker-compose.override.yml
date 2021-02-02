@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+    cataloguedb:
+        container_name: cataloguedb
+        restart: always
+        volumes:
+            - ${WEBAPP_STORAGE_HOME}/site:/data/db
+        ports:
+            - "27017:27017"
+
+    catalogue.api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - "CatalogueDatabaseSettings:ConnectionString=mongodb://cataloguedb:27017"
+        depends_on:
+            - cataloguedb
+        volumes:
+            - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+            - ${HOME}/.aspnet/https:/root/.aspnet/https/
+        ports:
+            - "8000:80"
