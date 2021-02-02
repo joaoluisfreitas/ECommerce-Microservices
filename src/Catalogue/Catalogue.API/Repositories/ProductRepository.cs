@@ -22,7 +22,6 @@ namespace Catalogue.API.Repositories
             await _context.Products.InsertOneAsync(product);
         }
 
-
         public async Task<Product> GetProduct(string id)
         {
             FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(p => p.Id, id);
